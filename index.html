@@ -9,42 +9,167 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=VT323&display=swap');
-        body { background-color: #fdf2f2; font-family: 'Plus Jakarta Sans', sans-serif; color: #b55d7e; overflow-x: hidden; }
+        
+        body { 
+            background-color: #fdf2f2; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: #b55d7e; 
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
         .pixel-font { font-family: 'VT323', monospace; }
+        
         .paper-hd {
             background: #fffef0;
             background-image: radial-gradient(#d1d1d1 0.5px, transparent 0);
             background-size: 20px 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05), inset 0 0 80px rgba(212, 184, 138, 0.15);
             border-left: 8px solid #e2d5bb;
+            position: relative;
+            z-index: 10;
         }
-        .typing { border-right: 3px solid #b55d7e; white-space: pre-wrap; animation: blink 0.7s infinite; }
-        @keyframes blink { 50% { border-color: transparent } }
-        .btn-pink { background: #b55d7e; color: white; padding: 12px 30px; border-radius: 12px; transition: 0.3s; }
+        
+        .typing { 
+            border-right: 3px solid #b55d7e; 
+            white-space: pre-wrap; 
+            animation: blink 0.7s infinite; 
+        }
+        
+        @keyframes blink { 
+            50% { border-color: transparent } 
+        }
+        
+        .btn-pink { 
+            background: #b55d7e; 
+            color: white; 
+            padding: 12px 30px; 
+            border-radius: 12px; 
+            transition: 0.3s; 
+        }
+        
+        .btn-pink:hover {
+            background: #9e4968;
+            transform: scale(1.05);
+        }
+
+        /* Animasi Love */
+        .love-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 192, 203, 0.3);
+            animation: float 6s infinite ease-in-out;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Variasi animasi untuk setiap love */
+        .heart:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; font-size: 24px; }
+        .heart:nth-child(2) { left: 20%; animation-duration: 7s; animation-delay: 2s; font-size: 18px; }
+        .heart:nth-child(3) { left: 30%; animation-duration: 9s; animation-delay: 1s; font-size: 28px; }
+        .heart:nth-child(4) { left: 40%; animation-duration: 6.5s; animation-delay: 3s; font-size: 22px; }
+        .heart:nth-child(5) { left: 50%; animation-duration: 8.5s; animation-delay: 0.5s; font-size: 26px; }
+        .heart:nth-child(6) { left: 60%; animation-duration: 7.5s; animation-delay: 2.5s; font-size: 20px; }
+        .heart:nth-child(7) { left: 70%; animation-duration: 9.5s; animation-delay: 1.5s; font-size: 30px; }
+        .heart:nth-child(8) { left: 80%; animation-duration: 8s; animation-delay: 3.5s; font-size: 24px; }
+        .heart:nth-child(9) { left: 90%; animation-duration: 7s; animation-delay: 0.8s; font-size: 22px; }
+        .heart:nth-child(10) { left: 15%; animation-duration: 9s; animation-delay: 2.8s; font-size: 28px; }
+        .heart:nth-child(11) { left: 25%; animation-duration: 6.8s; animation-delay: 1.2s; font-size: 20px; }
+        .heart:nth-child(12) { left: 35%; animation-duration: 8.2s; animation-delay: 3.2s; font-size: 26px; }
+        .heart:nth-child(13) { left: 45%; animation-duration: 7.3s; animation-delay: 0.3s; font-size: 24px; }
+        .heart:nth-child(14) { left: 55%; animation-duration: 9.1s; animation-delay: 2.1s; font-size: 22px; }
+        .heart:nth-child(15) { left: 65%; animation-duration: 6.9s; animation-delay: 1.9s; font-size: 28px; }
+        .heart:nth-child(16) { left: 75%; animation-duration: 8.7s; animation-delay: 3.7s; font-size: 26px; }
+        .heart:nth-child(17) { left: 85%; animation-duration: 7.8s; animation-delay: 0.7s; font-size: 30px; }
+        .heart:nth-child(18) { left: 95%; animation-duration: 9.3s; animation-delay: 2.3s; font-size: 24px; }
+        .heart:nth-child(19) { left: 5%; animation-duration: 6.6s; animation-delay: 1.6s; font-size: 22px; }
+        .heart:nth-child(20) { left: 75%; animation-duration: 8.9s; animation-delay: 3.9s; font-size: 28px; }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 20;
+        }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Background Animasi Love -->
+    <div class="love-bg">
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+    </div>
 
-    <div id="app" class="max-w-2xl w-full">
+    <div id="app" class="content-wrapper max-w-2xl w-full mx-auto p-4">
         
-        <div v-if="step < 3" class="text-center animate__animated animate__fadeIn">
+        <!-- Step 1 & 2: Hi & Happy Birthday -->
+        <div v-if="step < 3" class="text-center animate__animated animate__fadeIn min-h-screen flex flex-col items-center justify-center">
             <h1 class="pixel-font text-6xl md:text-8xl mb-10 uppercase tracking-widest">
                 {{ step === 1 ? 'Hi' : 'Happy Birthday!' }}
             </h1>
-            <button @click="nextStep" class="btn-pink pixel-font text-2xl shadow-xl">Next</button>
+            <button @click="nextStep" class="btn-pink pixel-font text-2xl shadow-xl hover:shadow-2xl transition-all">
+                Next
+            </button>
         </div>
 
-        <div v-if="step === 3" class="text-center animate__animated animate__zoomIn">
+        <!-- Step 3: Message Notification -->
+        <div v-if="step === 3" class="text-center animate__animated animate__zoomIn min-h-screen flex flex-col items-center justify-center">
             <h2 class="text-2xl mb-8 font-semibold">You have a new message!</h2>
-            <div @click="nextStep" class="text-[120px] mb-8 cursor-pointer hover:scale-110 transition-transform">📩</div>
-            <button @click="nextStep" class="btn-pink font-bold italic">Open the Letter</button>
+            <div @click="nextStep" class="text-[120px] mb-8 cursor-pointer hover:scale-110 transition-transform animate__animated animate__heartBeat animate__infinite">
+                📩
+            </div>
+            <button @click="nextStep" class="btn-pink font-bold italic shadow-xl hover:shadow-2xl">
+                Open the Letter
+            </button>
         </div>
 
-        <div v-if="step === 4" class="animate__animated animate__fadeInUp">
+        <!-- Step 4: The Letter -->
+        <div v-if="step === 4" class="animate__animated animate__fadeInUp py-8">
             <div class="paper-hd p-6 md:p-10 rounded-2xl min-h-[400px]">
                 <div class="typing text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
                     {{ displayedText }}
@@ -54,18 +179,26 @@
                 </p>
             </div>
             
-            <div v-if="isTypingDone" class="mt-8 grid grid-cols-4 gap-3 animate__animated animate__fadeInUp">
-                <button v-for="(msg, key) in extraMessages" @click="openPopup(key)" class="bg-white p-3 rounded-xl border border-pink-100 shadow-sm hover:bg-pink-50 transition">
-                    <span class="block text-2xl">✉️</span>
-                    <span class="text-[10px] font-bold uppercase">{{ key }}</span>
+            <!-- Extra Messages Buttons -->
+            <div v-if="isTypingDone" class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 animate__animated animate__fadeInUp">
+                <button v-for="(msg, key, index) in extraMessages" 
+                        @click="openPopup(key)" 
+                        class="bg-white/80 backdrop-blur-sm p-3 rounded-xl border border-pink-200 shadow-lg hover:bg-pink-100 transition-all hover:scale-105"
+                        :class="'animate__animated animate__fadeInUp animate__delay-' + (index + 1) + 's'">
+                    <span class="block text-3xl mb-1">✉️</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-pink-600">{{ key }}</span>
                 </button>
             </div>
         </div>
 
+        <!-- Popup Modal -->
         <div v-if="showPopup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6">
-            <div class="bg-white rounded-3xl p-8 max-w-sm w-full relative animate__animated animate__zoomIn text-center">
-                <button @click="showPopup = false" class="absolute top-4 right-4 text-2xl">&times;</button>
-                <p class="text-gray-700 leading-relaxed">{{ activeMessage }}</p>
+            <div class="bg-white rounded-3xl p-8 max-w-sm w-full relative animate__animated animate__zoomIn text-center shadow-2xl">
+                <button @click="showPopup = false" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-gray-600 transition-colors">
+                    &times;
+                </button>
+                <div class="text-5xl mb-4 animate__animated animate__heartBeat">❤️</div>
+                <p class="text-gray-700 leading-relaxed text-lg">{{ activeMessage }}</p>
             </div>
         </div>
     </div>
@@ -77,49 +210,25 @@
                 return {
                     step: 1,
                     yourName: "F",
-                    startTime: 30,
-                    endTime: 60,
                     displayedText: "",
                     fullText: "Hi Sayang, Happy Birthday Barakallah fii umrik بارك الله في عمرك !\n\nHari ini bukan sekadar tentang usia yang bertambah. Ini tentang kamu yang tetap berjalan meski hidup tidak selalu lembut. Tentang kamu yang tetap berdiri meski pernah goyah. Dan percayalah, semua yang sudah kamu lalui bukan kebetulan.\n\nلَا يُكَلِّفُ اللّٰهُ نَفْسًا اِلَّا وُسْعَهَاۗ \n\nAllah tidak membebani seseorang melainkan sesuai kesanggupannya. \n\nJika ujian itu pernah datang kepadamu, itu karena kamu mampu melewatinya. Luka yang hadir bukan tanda kelemahan, tetapi bukti bahwa kamu sedang ditempa menjadi pribadi yang lebih dalam dan lebih kuat. \n\nKe depan, memang tidak ada yang benar-benar pasti. Tapi ada satu hal yang selalu bisa kamu pegang: janji-Nya. \n\nفَاِنَّ مَعَ الْعُسْرِ يُسْرًاۙ \n\nSesungguhnya bersama kesulitan ada kemudahan. \n\nBukan setelahnya, tapi bersamanya. Maka jika hari-hari terasa berat, percayalah bahwa di saat yang sama Allah sedang menyiapkan kelapangan untukmu. \n\nSemoga kamu selalu diberi hati yang luas untuk menerima, dan rasa syukur yang cukup untuk menikmati apa yang ada. Karena dalam Al-Qur'an juga disebutkan: \n\nلَىِٕنْ شَكَرْتُمْ لَاَزِيْدَنَّكُمْ  \n\nJika kamu bersyukur, pasti Allah akan menambah nikmat kepadamu. \n\nDan tentang sabar ingatlah apa yang ditulis oleh Abu Hamid Al-Ghazali dalam kitab Ihya’ Ulumuddin: \n\n“Sabar adalah keteguhan hati dalam menerima takdir tanpa kehilangan adab kepada Allah.” \n\nKamu sudah melakukannya sejauh ini. Kamu tetap menjaga hatimu, tetap berusaha, tetap percaya meski tidak selalu mengerti rencana-Nya. \n\nDi usia yang baru ini, semoga luka-luka yang pernah singgah perlahan sembuh, diganti dengan bahagia yang lebih utuh. Semoga Tuhan selalu menjaga langkahmu, menuntun keputusanmu, dan memberi kelapangan dalam setiap hal yang belum kamu miliki. Karena pada akhirnya, yang membuatmu istimewa bukan sekadar apa yang kamu capai, tetapi bagaimana kamu memilih untuk tetap tumbuh, tetap percaya, dan tetap melangkah. Terima kasih sudah bertahan sejauh ini.",
                     isTypingDone: false,
                     showPopup: false,
                     activeMessage: '',
                     extraMessages: {
-                        thanks: "Makasih udah selalu ada...",
-                        happy: "Semoga bahagia terus ya!",
-                        sorry: "Taqabbalallahu minna wa minkum (تقبل الله منا ومنكم)",
-                        sad: "Jangan sedih, ada aku di sini."
+                        thanks: "Makasih udah selalu ada dan jadi support system terbaik! ❤️",
+                        happy: "Semoga bahagia selalu, dalam setiap langkah dan hembusan napasmu! ✨",
+                        sorry: "Taqabbalallahu minna wa minkum - Semoga kita selalu dalam lindungan-Nya 🤲",
+                        sad: "Jangan sedih, ingat selalu ada yang sayang kamu di sini! 🌹"
                     }
                 }
             },
             methods: {
                 nextStep() {
-                    if (this.step === 1) {
-                        this.startMusic();
-                    }
                     this.step++;
                     if (this.step === 4) {
                         setTimeout(() => this.typeEffect(), 500);
                     }
-                },
-                startMusic() {
-                    const audio = document.getElementById('bgMusic');
-                    audio.currentTime = this.startTime;
-                    
-                    // Handle autoplay policy
-                    const playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            console.log("Autoplay prevented:", error);
-                        });
-                    }
-
-                    audio.addEventListener('timeupdate', () => {
-                        if (audio.currentTime >= this.endTime) {
-                            audio.pause();
-                            audio.currentTime = this.startTime;
-                        }
-                    });
                 },
                 typeEffect() {
                     let i = 0;
@@ -131,7 +240,7 @@
                             clearInterval(timer);
                             this.isTypingDone = true;
                         }
-                    }, 50);
+                    }, 40);
                 },
                 openPopup(key) {
                     this.activeMessage = this.extraMessages[key];

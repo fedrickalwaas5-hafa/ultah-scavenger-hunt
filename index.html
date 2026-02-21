@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,84 +8,96 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        body { background-color: #fdf2f2; font-family: 'VT323', monospace; color: #b55d7e; overflow-x: hidden; }
-        .btn-pink { background-color: #b55d7e; color: white; padding: 10px 30px; border-radius: 8px; font-size: 1.5rem; transition: 0.3s; }
-        .btn-pink:hover { transform: scale(1.05); background-color: #944a66; }
-        /* Kertas Tua */
-        .parchment {
-            background: #f4e1c1;
-            background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
-            position: relative;
-            min-height: 400px;
-            border: 1px solid #d4b88a;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=VT323&display=swap');
+        
+        :root { --pink-dark: #b55d7e; --pink-light: #fdf2f2; }
+        body { background-color: var(--pink-light); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--pink-dark); overflow-x: hidden; }
+        .pixel-font { font-family: 'VT323', monospace; }
+
+        /* Kertas HD Effect */
+        .paper-hd {
+            background: #fffef0;
+            background-image: radial-gradient(#d1d1d1 1px, transparent 0);
+            background-size: 24px 24px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.1),
+                inset 0 0 100px rgba(212, 184, 138, 0.2);
+            border-left: 10px solid #e2d5bb;
         }
-        /* Popup Amplop */
-        .popup-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 50;
+
+        /* Typing Animation */
+        .typing {
+            border-right: 3px solid var(--pink-dark);
+            white-space: pre-wrap;
+            overflow: hidden;
+            animation: blink 0.7s infinite;
         }
-        .popup-content {
-            background: white; padding: 25px; border-radius: 15px; max-width: 90%; width: 350px;
-            position: relative; border: 4px pink dotted;
+        @keyframes blink { 50% { border-color: transparent } }
+
+        /* Envelope Styles */
+        .envelope-wrapper { position: relative; cursor: pointer; transition: 0.5s; }
+        .envelope-wrapper:hover { transform: translateY(-10px); }
+
+        .btn-custom {
+            background-color: var(--pink-dark);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 12px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(181, 93, 126, 0.3);
         }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #b55d7e; font-weight: bold; }
-        .white-space-pre { white-space: pre-wrap; font-size: 1.2rem; line-height: 1.4; color: #444; }
+        .btn-custom:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 text-center">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div id="app" class="max-w-lg w-full">
+    <div id="app" class="max-w-2xl w-full">
         
-        <div v-if="step === 1" class="animate__animated animate__fadeIn">
-            <h1 class="text-6xl mb-10 tracking-widest uppercase">Hi</h1>
-            <button @click="step++" class="btn-pink shadow-lg">Next</button>
+        <div v-if="step === 1 || step === 2" class="text-center animate__animated animate__fadeIn">
+            <h1 class="pixel-font text-6xl md:text-8xl mb-12 tracking-widest uppercase">
+                {{ step === 1 ? 'Hi' : 'Happy Birthday!' }}
+            </h1>
+            <button @click="step++" class="btn-custom pixel-font text-2xl">Next</button>
         </div>
 
-        <div v-if="step === 2" class="animate__animated animate__fadeIn">
-            <h1 class="text-4xl md:text-5xl mb-10 tracking-widest uppercase">Happy Birthday <br> {{ targetName }}!</h1>
-            <button @click="step++" class="btn-pink shadow-lg">Next</button>
-        </div>
-
-        <div v-if="step === 3" class="animate__animated animate__zoomIn">
-            <h2 class="text-3xl mb-6">Letter For You! 💌</h2>
-            <div class="text-8xl mb-10 animate__animated animate__pulse animate__infinite">📩</div>
-            <div class="flex justify-center gap-4">
-                <button @click="step--" class="btn-pink !bg-gray-400">Go Back</button>
-                <button @click="step++" class="btn-pink shadow-lg">Open It</button>
-            </div>
+        <div v-if="step === 3" class="text-center animate__animated animate__zoomIn">
+            <h2 class="text-2xl font-semibold mb-8">You have a new message!</h2>
+            <div @click="step++" class="envelope-wrapper text-[100px] md:text-[150px] mb-8">📩</div>
+            <button @click="step++" class="btn-custom font-bold italic tracking-tighter">Open the Letter</button>
         </div>
 
         <div v-if="step === 4" class="animate__animated animate__fadeInUp">
-            <div class="parchment text-left mb-8">
-                <p class="white-space-pre">{{ mainLetter }}</p>
-                <p class="text-right mt-6 italic">with love,<br>{{ yourName }}</p>
+            <div class="paper-hd p-6 md:p-10 rounded-lg min-h-[400px] relative overflow-hidden">
+                <div class="absolute top-4 right-6 opacity-20 text-4xl">❤️</div>
+                
+                <div class="typing text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
+                    {{ displayedText }}
+                </div>
+
+                <p v-if="isTypingDone" class="text-right mt-10 italic font-semibold animate__animated animate__fadeIn">
+                    With love, <br> {{ yourName }}
+                </p>
             </div>
 
-            <div class="mb-6">
-                <p class="text-xl mb-4 italic">needs more?</p>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <button v-for="(msg, key) in extraMessages" :key="key" @click="openPopup(key)" 
-                            class="flex flex-col items-center group">
-                        <span class="text-4xl group-hover:scale-110 transition">✉️</span>
-                        <span class="text-sm uppercase tracking-tighter">{{ key }}</span>
+            <div v-if="isTypingDone" class="mt-8 animate__animated animate__fadeInUp">
+                <p class="text-center italic mb-4">Click to see more...</p>
+                <div class="grid grid-cols-4 gap-3">
+                    <button v-for="(msg, key) in extraMessages" @click="openPopup(key)" 
+                            class="bg-white p-3 rounded-xl shadow-sm hover:shadow-md transition text-center border border-pink-100 group">
+                        <span class="text-2xl group-hover:scale-110 block transition">✉️</span>
+                        <span class="text-[10px] uppercase font-bold text-gray-400">{{ key }}</span>
                     </button>
                 </div>
             </div>
-
-            <button @click="step = 1" class="btn-pink shadow-lg mt-4">That's It!</button>
         </div>
 
-        <div v-if="showPopup" class="popup-overlay animate__animated animate__fadeIn">
-            <div class="popup-content animate__animated animate__zoomIn">
-                <span class="close-btn" @click="showPopup = false">X</span>
-                <div class="mt-4">
-                    <img src="https://img.icons8.com/color/96/bow.png" class="mx-auto mb-4 w-12" />
-                    <p class="white-space-pre text-left border-t pt-4">{{ activeMessage }}</p>
+        <div v-if="showPopup" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-3xl p-8 max-w-sm w-full relative animate__animated animate__zoomIn">
+                <button @click="showPopup = false" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
+                <div class="text-center mb-4">
+                    <span class="bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">{{ activeKey }}</span>
                 </div>
+                <p class="text-gray-700 leading-relaxed text-lg">{{ activeMessage }}</p>
             </div>
         </div>
 
@@ -97,26 +109,43 @@
             data() {
                 return {
                     step: 1,
-                    targetName: "Yasifa's", // Ganti Nama Dia
-                    yourName: "fasya", // Ganti Nama Kamu
+                    yourName: "Nama Kamu", 
+                    targetName: "Nama Dia",
+                    displayedText: "",
+                    fullText: "Hi Sayang, Happy Birthday!\n\nYeay! Kamu berhasil melewati tantangan teka-tekinya. Aku cuma mau bilang makasih banget udah lahir ke dunia ini. Makasih udah jadi alasan aku buat semangat tiap hari.\n\nSemoga di umur yang baru ini, kamu makin bahagia, makin sehat, dan tentunya makin sayang sama aku. I'm so lucky to have you.\n\nEnjoy your special day, my love!",
+                    isTypingDone: false,
                     showPopup: false,
                     activeMessage: '',
-                    
-                    // SURAT UTAMA (Kertas Tua)
-                    mainLetter: `Hi, happy birthday!\n\nYeay! kamu berhasil nambah satu tahun lagi di hidupmu. I'm so proud of you. Gak kerasa ya waktu cepet banget lewat.\n\nMakasih ya udah lahir ke dunia ini. I miss you so much (hope you feel the same way). Kamu tau persis di mana harus cari aku kalau butuh apa-apa.\n\nEnjoy your new journey!`,
-
-                    // PESAN DI AMPLOP KECIL (Thanks, Happy, Sorry, Sad)
+                    activeKey: '',
                     extraMessages: {
-                        thanks: "Makasih ya udah selalu ada buat aku, makasih udah mau dengerin keluh kesah aku selama ini. You're the best!",
-                        happy: "Aku seneng banget kalau liat kamu seneng. Semoga hari-hari kamu ke depannya penuh warna ya!",
-                        sorry: "Maaf ya kalau aku sering bikin kesel atau ada salah yang disengaja maupun nggak. I'm still learning.",
-                        sad: "Kalau lagi sedih, jangan dipendem sendiri ya. Aku selalu siap jadi tempat kamu cerita. Cheer up!"
+                        thanks: "Makasih udah selalu sabar sama aku ya!",
+                        happy: "Semoga hari ini jadi yang terbaik buat kamu.",
+                        sorry: "Maaf kalau aku sering bikin kamu sebel.",
+                        sad: "Jangan sedih ya, aku selalu ada di sini."
                     }
                 }
             },
+            watch: {
+                step(newStep) {
+                    if (newStep === 4) this.typeEffect();
+                }
+            },
             methods: {
-                openPopup(type) {
-                    this.activeMessage = this.extraMessages[type];
+                typeEffect() {
+                    let i = 0;
+                    this.displayedText = "";
+                    const timer = setInterval(() => {
+                        this.displayedText += this.fullText.charAt(i);
+                        i++;
+                        if (i >= this.fullText.length) {
+                            clearInterval(timer);
+                            this.isTypingDone = true;
+                        }
+                    }, 50); // Kecepatan ketik (ms)
+                },
+                openPopup(key) {
+                    this.activeKey = key;
+                    this.activeMessage = this.extraMessages[key];
                     this.showPopup = true;
                 }
             }

@@ -25,8 +25,8 @@
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
-    <audio id="bgMusic">
-        <source src="https://youtu.be/3sur4BmjQt8?si=VOslzAnPz5qwwufS" type="audio/mpeg">
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div id="app" class="max-w-2xl w-full">
@@ -71,19 +71,16 @@
     </div>
 
     <script>
-        const { createApp } = Vue
+        const { createApp } = Vue;
         createApp({
             data() {
                 return {
                     step: 1,
                     yourName: "F",
-                    // --- SETTING MUSIK ---
-                    startTime: 92, // Mulai dari detik ke-30
-                    endTime: ,   // Berhenti di detik ke-60 (opsional)
-                    
+                    startTime: 30,
+                    endTime: 60,
                     displayedText: "",
-                    fullText: "Hi Sayang, Happy Birthday Barakallah fii umrik بارك الله في عمرك !\n\nHari ini bukan sekadar tentang usia yang bertambah.Ini tentang kamu yang tetap berjalan meski hidup tidak selalu lembut. Tentang kamu yang tetap berdiri meski pernah goyah. Dan percayalah, semua yang sudah kamu lalui bukan kebetulan \n\nلَا يُكَلِّفُ اللّٰهُ نَفْسًا اِلَّا وُسْعَهَاۗ \n\nAllah tidak membebani seseorang melainkan sesuai kesanggupannya. \n\nJika ujian itu pernah datang kepadamu, itu karena kamu mampu melewatinya. Luka yang hadir bukan tanda kelemahan, tetapi bukti bahwa kamu sedang ditempa menjadi pribadi yang lebih dalam dan lebih kuat. \n\nKe depan, memang tidak ada yang benar-benar pasti. Tapi ada satu hal yang selalu bisa kamu pegang: janji-Nya. \n\nفَاِنَّ مَعَ الْعُسْرِ يُسْرًاۙ \n\nSesungguhnya bersama kesulitan ada kemudahan. \n\nBukan setelahnya, tapi bersamanya. Maka jika hari-hari terasa berat, percayalah bahwa di saat yang sama Allah sedang menyiapkan kelapangan untukmu. \n\nSemoga kamu selalu diberi hati yang luas untuk menerima, dan rasa syukur yang cukup untuk menikmati apa yang ada. Karena dalam Al-Qur'an juga disebutkan: \n\nلَىِٕنْ شَكَرْتُمْ لَاَزِيْدَنَّكُمْ  \n\nJika kamu bersyukur, pasti Allah akan menambah nikmat kepadamu. \n\nDan tentang sabar ingatlah apa yang ditulis oleh Abu Hamid Al-Ghazali dalam kitab Ihya’ Ulumuddin: \n\n“Sabar adalah keteguhan hati dalam menerima takdir tanpa kehilangan adab kepada Allah.” \n\nKamu sudah melakukannya sejauh ini. Kamu tetap menjaga hatimu, tetap berusaha, tetap percaya meski tidak selalu mengerti rencana-Nya. \n\nDi usia yang baru ini, semoga luka-luka yang pernah singgah perlahan sembuh, diganti dengan bahagia yang lebih utuh. Semoga Tuhan selalu menjaga langkahmu, menuntun keputusanmu, dan memberi kelapangan dalam setiap hal yang belum kamu miliki. Karena pada akhirnya, yang membuatmu istimewa bukan sekadar apa yang kamu capai, tetapi bagaimana kamu memilih untuk tetap tumbuh, tetap percaya, dan tetap melangkah.Terima kasih sudah bertahan sejauh ini.
-", 
+                    fullText: "Hi Sayang, Happy Birthday Barakallah fii umrik بارك الله في عمرك !\n\nHari ini bukan sekadar tentang usia yang bertambah. Ini tentang kamu yang tetap berjalan meski hidup tidak selalu lembut. Tentang kamu yang tetap berdiri meski pernah goyah. Dan percayalah, semua yang sudah kamu lalui bukan kebetulan.\n\nلَا يُكَلِّفُ اللّٰهُ نَفْسًا اِلَّا وُسْعَهَاۗ \n\nAllah tidak membebani seseorang melainkan sesuai kesanggupannya. \n\nJika ujian itu pernah datang kepadamu, itu karena kamu mampu melewatinya. Luka yang hadir bukan tanda kelemahan, tetapi bukti bahwa kamu sedang ditempa menjadi pribadi yang lebih dalam dan lebih kuat. \n\nKe depan, memang tidak ada yang benar-benar pasti. Tapi ada satu hal yang selalu bisa kamu pegang: janji-Nya. \n\nفَاِنَّ مَعَ الْعُسْرِ يُسْرًاۙ \n\nSesungguhnya bersama kesulitan ada kemudahan. \n\nBukan setelahnya, tapi bersamanya. Maka jika hari-hari terasa berat, percayalah bahwa di saat yang sama Allah sedang menyiapkan kelapangan untukmu. \n\nSemoga kamu selalu diberi hati yang luas untuk menerima, dan rasa syukur yang cukup untuk menikmati apa yang ada. Karena dalam Al-Qur'an juga disebutkan: \n\nلَىِٕنْ شَكَرْتُمْ لَاَزِيْدَنَّكُمْ  \n\nJika kamu bersyukur, pasti Allah akan menambah nikmat kepadamu. \n\nDan tentang sabar ingatlah apa yang ditulis oleh Abu Hamid Al-Ghazali dalam kitab Ihya’ Ulumuddin: \n\n“Sabar adalah keteguhan hati dalam menerima takdir tanpa kehilangan adab kepada Allah.” \n\nKamu sudah melakukannya sejauh ini. Kamu tetap menjaga hatimu, tetap berusaha, tetap percaya meski tidak selalu mengerti rencana-Nya. \n\nDi usia yang baru ini, semoga luka-luka yang pernah singgah perlahan sembuh, diganti dengan bahagia yang lebih utuh. Semoga Tuhan selalu menjaga langkahmu, menuntun keputusanmu, dan memberi kelapangan dalam setiap hal yang belum kamu miliki. Karena pada akhirnya, yang membuatmu istimewa bukan sekadar apa yang kamu capai, tetapi bagaimana kamu memilih untuk tetap tumbuh, tetap percaya, dan tetap melangkah. Terima kasih sudah bertahan sejauh ini.",
                     isTypingDone: false,
                     showPopup: false,
                     activeMessage: '',
@@ -97,28 +94,40 @@
             },
             methods: {
                 nextStep() {
-                    if (this.step === 1) this.startMusic();
+                    if (this.step === 1) {
+                        this.startMusic();
+                    }
                     this.step++;
-                    if (this.step === 4) this.typeEffect();
+                    if (this.step === 4) {
+                        setTimeout(() => this.typeEffect(), 500);
+                    }
                 },
                 startMusic() {
                     const audio = document.getElementById('bgMusic');
-                    audio.currentTime = this.startTime; // Potong mulai dari detik sekian
-                    audio.play();
+                    audio.currentTime = this.startTime;
+                    
+                    // Handle autoplay policy
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Autoplay prevented:", error);
+                        });
+                    }
 
-                    // Logika jika ingin musik berhenti di detik tertentu
                     audio.addEventListener('timeupdate', () => {
                         if (audio.currentTime >= this.endTime) {
-                            audio.pause(); 
+                            audio.pause();
+                            audio.currentTime = this.startTime;
                         }
                     });
                 },
                 typeEffect() {
                     let i = 0;
                     const timer = setInterval(() => {
-                        this.displayedText += this.fullText.charAt(i);
-                        i++;
-                        if (i >= this.fullText.length) {
+                        if (i < this.fullText.length) {
+                            this.displayedText += this.fullText.charAt(i);
+                            i++;
+                        } else {
                             clearInterval(timer);
                             this.isTypingDone = true;
                         }
@@ -129,7 +138,7 @@
                     this.showPopup = true;
                 }
             }
-        }).mount('#app')
+        }).mount('#app');
     </script>
 </body>
 </html>

@@ -3,104 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Letter for You ❤️</title>
-    <script src="https://cdn.tailwindcss.com"></script>    
+    <title>Birthday Letter ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=VT323&display=swap');
-        
-        :root { --pink-dark: #b55d7e; --pink-light: #fdf2f2; }
-        body { background-color: var(--pink-light); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--pink-dark); overflow-x: hidden; }
+        body { background-color: #fdf2f2; font-family: 'Plus Jakarta Sans', sans-serif; color: #b55d7e; overflow-x: hidden; }
         .pixel-font { font-family: 'VT323', monospace; }
-
-        /* Kertas HD Effect */
         .paper-hd {
             background: #fffef0;
-            background-image: radial-gradient(#d1d1d1 1px, transparent 0);
-            background-size: 24px 24px;
-            box-shadow: 
-                0 10px 30px rgba(0,0,0,0.1),
-                inset 0 0 100px rgba(212, 184, 138, 0.2);
-            border-left: 10px solid #e2d5bb;
+            background-image: radial-gradient(#d1d1d1 0.5px, transparent 0);
+            background-size: 20px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05), inset 0 0 80px rgba(212, 184, 138, 0.15);
+            border-left: 8px solid #e2d5bb;
         }
-
-        /* Typing Animation */
-        .typing {
-            border-right: 3px solid var(--pink-dark);
-            white-space: pre-wrap;
-            overflow: hidden;
-            animation: blink 0.7s infinite;
-        }
+        .typing { border-right: 3px solid #b55d7e; white-space: pre-wrap; animation: blink 0.7s infinite; }
         @keyframes blink { 50% { border-color: transparent } }
-
-        /* Envelope Styles */
-        .envelope-wrapper { position: relative; cursor: pointer; transition: 0.5s; }
-        .envelope-wrapper:hover { transform: translateY(-10px); }
-
-        .btn-custom {
-            background-color: var(--pink-dark);
-            color: white;
-            padding: 12px 32px;
-            border-radius: 12px;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(181, 93, 126, 0.3);
-        }
-        .btn-custom:active { transform: scale(0.95); }
+        .btn-pink { background: #b55d7e; color: white; padding: 12px 30px; border-radius: 12px; transition: 0.3s; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
+    <audio id="bgMusic">
+        <source src="https://youtu.be/3sur4BmjQt8?si=VOslzAnPz5qwwufS" type="audio/mpeg">
+    </audio>
+
     <div id="app" class="max-w-2xl w-full">
         
-        <div v-if="step === 1 || step === 2" class="text-center animate__animated animate__fadeIn">
-            <h1 class="pixel-font text-6xl md:text-8xl mb-12 tracking-widest uppercase">
+        <div v-if="step < 3" class="text-center animate__animated animate__fadeIn">
+            <h1 class="pixel-font text-6xl md:text-8xl mb-10 uppercase tracking-widest">
                 {{ step === 1 ? 'Hi' : 'Happy Birthday!' }}
             </h1>
-            <button @click="step++" class="btn-custom pixel-font text-2xl">Next</button>
+            <button @click="nextStep" class="btn-pink pixel-font text-2xl shadow-xl">Next</button>
         </div>
 
         <div v-if="step === 3" class="text-center animate__animated animate__zoomIn">
-            <h2 class="text-2xl font-semibold mb-8">You have a new message!</h2>
-            <div @click="step++" class="envelope-wrapper text-[100px] md:text-[150px] mb-8">📩</div>
-            <button @click="step++" class="btn-custom font-bold italic tracking-tighter">Open the Letter</button>
+            <h2 class="text-2xl mb-8 font-semibold">You have a new message!</h2>
+            <div @click="nextStep" class="text-[120px] mb-8 cursor-pointer hover:scale-110 transition-transform">📩</div>
+            <button @click="nextStep" class="btn-pink font-bold italic">Open the Letter</button>
         </div>
 
         <div v-if="step === 4" class="animate__animated animate__fadeInUp">
-            <div class="paper-hd p-6 md:p-10 rounded-lg min-h-[400px] relative overflow-hidden">
-                <div class="absolute top-4 right-6 opacity-20 text-4xl">❤️</div>
-                
+            <div class="paper-hd p-6 md:p-10 rounded-2xl min-h-[400px]">
                 <div class="typing text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
                     {{ displayedText }}
                 </div>
-
-                <p v-if="isTypingDone" class="text-right mt-10 italic font-semibold animate__animated animate__fadeIn">
+                <p v-if="isTypingDone" class="text-right mt-10 italic font-bold animate__animated animate__fadeIn">
                     With love, <br> {{ yourName }}
                 </p>
             </div>
-
-            <div v-if="isTypingDone" class="mt-8 animate__animated animate__fadeInUp">
-                <p class="text-center italic mb-4">Click to see more...</p>
-                <div class="grid grid-cols-4 gap-3">
-                    <button v-for="(msg, key) in extraMessages" @click="openPopup(key)" 
-                            class="bg-white p-3 rounded-xl shadow-sm hover:shadow-md transition text-center border border-pink-100 group">
-                        <span class="text-2xl group-hover:scale-110 block transition">✉️</span>
-                        <span class="text-[10px] uppercase font-bold text-gray-400">{{ key }}</span>
-                    </button>
-                </div>
+            
+            <div v-if="isTypingDone" class="mt-8 grid grid-cols-4 gap-3 animate__animated animate__fadeInUp">
+                <button v-for="(msg, key) in extraMessages" @click="openPopup(key)" class="bg-white p-3 rounded-xl border border-pink-100 shadow-sm hover:bg-pink-50 transition">
+                    <span class="block text-2xl">✉️</span>
+                    <span class="text-[10px] font-bold uppercase">{{ key }}</span>
+                </button>
             </div>
         </div>
 
-        <div v-if="showPopup" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-3xl p-8 max-w-sm w-full relative animate__animated animate__zoomIn">
-                <button @click="showPopup = false" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
-                <div class="text-center mb-4">
-                    <span class="bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">{{ activeKey }}</span>
-                </div>
-                <p class="text-gray-700 leading-relaxed text-lg">{{ activeMessage }}</p>
+        <div v-if="showPopup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6">
+            <div class="bg-white rounded-3xl p-8 max-w-sm w-full relative animate__animated animate__zoomIn text-center">
+                <button @click="showPopup = false" class="absolute top-4 right-4 text-2xl">&times;</button>
+                <p class="text-gray-700 leading-relaxed">{{ activeMessage }}</p>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -109,31 +76,45 @@
             data() {
                 return {
                     step: 1,
-                    yourName: "F", 
-                    targetName: "Yasifa's",
+                    yourName: "F",
+                    // --- SETTING MUSIK ---
+                    startTime: 92, // Mulai dari detik ke-30
+                    endTime: ,   // Berhenti di detik ke-60 (opsional)
+                    
                     displayedText: "",
-                    fullText: "Hi Sayang, Happy Birthday Barakallah fii umrik بارك الله في عمرك !\n\n Hari ini bukan sekadar tentang usia yang bertambah. Ini tentang kamu yang tetap berjalan meski hidup tidak selalu lembut. Tentang kamu yang tetap berdiri meski pernah goyah. Dan percayalah, semua yang sudah kamu lalui bukan kebetulan لَا يُكَلِّفُ اللّٰهُ نَفْسًا اِلَّا وُسْعَهَاۗ Allah tidak membebani seseorang melainkan sesuai kesanggupannya. Jika ujian itu pernah datang kepadamu, itu karena kamu mampu melewatinya. Luka yang hadir bukan tanda kelemahan, tetapi bukti bahwa kamu sedang ditempa menjadi pribadi yang lebih dalam dan lebih kuat. Ke depan, memang tidak ada yang benar-benar pasti. Tapi ada satu hal yang selalu bisa kamu pegang: janji-Nya. فَاِنَّ مَعَ الْعُسْرِ يُسْرًاۙ Sesungguhnya bersama kesulitan ada kemudahan. Bukan setelahnya, tapi bersamanya. Maka jika hari-hari terasa berat, percayalah bahwa di saat yang sama Allah sedang menyiapkan kelapangan untukmu. Semoga kamu selalu diberi hati yang luas untuk menerima, dan rasa syukur yang cukup untuk menikmati apa yang ada. Karena dalam Al-Qur'an juga disebutkan: لَىِٕنْ شَكَرْتُمْ لَاَزِيْدَنَّكُمْ  Jika kamu bersyukur, pasti Allah akan menambah nikmat kepadamu. Dan tentang sabar ingatlah apa yang ditulis oleh Abu Hamid Al-Ghazali dalam kitab Ihya’ Ulumuddin: “Sabar adalah keteguhan hati dalam menerima takdir tanpa kehilangan adab kepada Allah.” Kamu sudah melakukannya sejauh ini. Kamu tetap menjaga hatimu, tetap berusaha, tetap percaya meski tidak selalu mengerti rencana-Nya. \n\nDi usia yang baru ini, semoga luka-luka yang pernah singgah perlahan sembuh, diganti dengan bahagia yang lebih utuh. Semoga Tuhan selalu menjaga langkahmu, menuntun keputusanmu, dan memberi kelapangan dalam setiap hal yang belum kamu miliki. Karena pada akhirnya, yang membuatmu istimewa bukan sekadar apa yang kamu capai, tetapi bagaimana kamu memilih untuk tetap tumbuh, tetap percaya, dan tetap melangkah.Terima kasih sudah bertahan sejauh ini. ", 
+                    fullText: "Hi Sayang, Happy Birthday Barakallah fii umrik بارك الله في عمرك !\n\nHari ini bukan sekadar tentang usia yang bertambah.Ini tentang kamu yang tetap berjalan meski hidup tidak selalu lembut. Tentang kamu yang tetap berdiri meski pernah goyah. Dan percayalah, semua yang sudah kamu lalui bukan kebetulan \n\nلَا يُكَلِّفُ اللّٰهُ نَفْسًا اِلَّا وُسْعَهَاۗ \n\nAllah tidak membebani seseorang melainkan sesuai kesanggupannya. \n\nJika ujian itu pernah datang kepadamu, itu karena kamu mampu melewatinya. Luka yang hadir bukan tanda kelemahan, tetapi bukti bahwa kamu sedang ditempa menjadi pribadi yang lebih dalam dan lebih kuat. \n\nKe depan, memang tidak ada yang benar-benar pasti. Tapi ada satu hal yang selalu bisa kamu pegang: janji-Nya. \n\nفَاِنَّ مَعَ الْعُسْرِ يُسْرًاۙ \n\nSesungguhnya bersama kesulitan ada kemudahan. \n\nBukan setelahnya, tapi bersamanya. Maka jika hari-hari terasa berat, percayalah bahwa di saat yang sama Allah sedang menyiapkan kelapangan untukmu. \n\nSemoga kamu selalu diberi hati yang luas untuk menerima, dan rasa syukur yang cukup untuk menikmati apa yang ada. Karena dalam Al-Qur'an juga disebutkan: \n\nلَىِٕنْ شَكَرْتُمْ لَاَزِيْدَنَّكُمْ  \n\nJika kamu bersyukur, pasti Allah akan menambah nikmat kepadamu. \n\nDan tentang sabar ingatlah apa yang ditulis oleh Abu Hamid Al-Ghazali dalam kitab Ihya’ Ulumuddin: \n\n“Sabar adalah keteguhan hati dalam menerima takdir tanpa kehilangan adab kepada Allah.” \n\nKamu sudah melakukannya sejauh ini. Kamu tetap menjaga hatimu, tetap berusaha, tetap percaya meski tidak selalu mengerti rencana-Nya. \n\nDi usia yang baru ini, semoga luka-luka yang pernah singgah perlahan sembuh, diganti dengan bahagia yang lebih utuh. Semoga Tuhan selalu menjaga langkahmu, menuntun keputusanmu, dan memberi kelapangan dalam setiap hal yang belum kamu miliki. Karena pada akhirnya, yang membuatmu istimewa bukan sekadar apa yang kamu capai, tetapi bagaimana kamu memilih untuk tetap tumbuh, tetap percaya, dan tetap melangkah.Terima kasih sudah bertahan sejauh ini.
+", 
                     isTypingDone: false,
                     showPopup: false,
                     activeMessage: '',
-                    activeKey: '',
                     extraMessages: {
-                        thanks: "Makasih udah selalu sabar sama aku ya!",
-                        happy: "Semoga hari ini jadi yang terbaik buat kamu.",
-                        sorry: "Taqabbalallahu minna wa minkum (تقبل الله منا ومنكم).",
-                        sad: "Jangan sedih ya, insyaallah aku selalu ada di sini."
+                        thanks: "Makasih udah selalu ada...",
+                        happy: "Semoga bahagia terus ya!",
+                        sorry: "Taqabbalallahu minna wa minkum (تقبل الله منا ومنكم)",
+                        sad: "Jangan sedih, ada aku di sini."
                     }
                 }
             },
-            watch: {
-                step(newStep) {
-                    if (newStep === 4) this.typeEffect();
-                }
-            },
             methods: {
+                nextStep() {
+                    if (this.step === 1) this.startMusic();
+                    this.step++;
+                    if (this.step === 4) this.typeEffect();
+                },
+                startMusic() {
+                    const audio = document.getElementById('bgMusic');
+                    audio.currentTime = this.startTime; // Potong mulai dari detik sekian
+                    audio.play();
+
+                    // Logika jika ingin musik berhenti di detik tertentu
+                    audio.addEventListener('timeupdate', () => {
+                        if (audio.currentTime >= this.endTime) {
+                            audio.pause(); 
+                        }
+                    });
+                },
                 typeEffect() {
                     let i = 0;
-                    this.displayedText = "";
                     const timer = setInterval(() => {
                         this.displayedText += this.fullText.charAt(i);
                         i++;
@@ -141,10 +122,9 @@
                             clearInterval(timer);
                             this.isTypingDone = true;
                         }
-                    }, 50); // Kecepatan ketik (ms)
+                    }, 50);
                 },
                 openPopup(key) {
-                    this.activeKey = key;
                     this.activeMessage = this.extraMessages[key];
                     this.showPopup = true;
                 }
